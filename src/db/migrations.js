@@ -1,0 +1,25 @@
+export default [
+    {
+        ver:1,
+        stores:{
+            userInfo:[
+                'id',
+                'name'
+            ],
+            todoList:[
+                'id',
+                'status',
+                'title',
+                'date',
+                'dueData',
+                'subList',
+                'remark'
+            ],
+            subTodoList:[
+                'id',
+                'status',
+                'title'
+            ]
+        }
+    }
+]
