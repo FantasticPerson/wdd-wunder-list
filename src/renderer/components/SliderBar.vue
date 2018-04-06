@@ -32,6 +32,7 @@
 
 import User from './User'
 import Filters from './Filters'
+import {mapGetters} from 'vuex'
 
 let canClick = true;
 export default {
@@ -40,6 +41,11 @@ export default {
             classNames:'container',
             showSearchIcon:true
         }
+    },
+    computed:{
+        ...mapGetters([
+            'doneTodoItems'
+        ])
     },
     mounted(){
         window.onresize = ()=>{

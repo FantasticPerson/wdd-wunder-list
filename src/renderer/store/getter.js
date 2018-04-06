@@ -16,5 +16,14 @@ export default {
         })
     },
     filters:state=>state.filterList,
-    filterId:state=>state.filterId
+    filterId:state=>state.filterId,
+    todoItemNextId:state=>{
+        let id = -1;
+        state.todoList.map((item)=>{
+            if(item.id > -10){
+                id = item.id
+            }
+        })
+        return ++id
+    }
 }

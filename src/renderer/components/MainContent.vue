@@ -1,7 +1,7 @@
 <template>
     <div :class="classNames">
         <div class="list-toolbar">
-            <h1 class="title">收件箱</h1>
+            <h1 class="title">{{filterName}}</h1>
             <div class="actionBar">
                 <div class="actionBar-bottom">
                     <span class="tab">
@@ -17,14 +17,18 @@
         </div>
         <div class="task-scrolls">
             <ScrollContainer>
-                <AddTask></AddTask>
+                <AddTask :filterId="filterId" v-if="filterId !== -1"></AddTask>
                 <div class="tasks">
-                    <ol class="task-list" v-if="notDoneTodoItems && notDoneTodoItems.length">
-                        <TaskItem v-for="item in notDoneTodoItems" :key="item.id" :data="item"></TaskItem>
+                    <ol class="task-list" v-if="todoItems">
+                        <TaskItem v-for="item in todoItems" :key="item.id" :data="item" :filterId="filterId" :filters="filters"></TaskItem>
                     </ol>
                 </div>
-                <h2 class="show-more"><span>显示以完成的任务</span></h2>
-                <div class="tasks"></div>
+                <h2 class="show-more" v-if="showShowMore"><span>显示以完成的任务</span></h2>
+                <div class="tasks">
+                    <ol class="task-list" v-if="todoItemsDone">
+                        <TaskItem v-for="item in todoItemsDone" :key="item.id" :data="item" :filterId="filterId" :filters="filters"></TaskItem>
+                    </ol>
+                </div>
             </ScrollContainer>
         </div>
     </div>
@@ -46,8 +50,30 @@ export default {
         ...mapGetters([
             'doneTodoItems',
             'notDoneTodoItems',
-            'notDoneStarTodoItems'
-        ])
+            'notDoneStarTodoItems',
+            'filterId',
+            'filters'
+        ]),
+        todoItems(){
+            return this.notDoneTodoItems.filter((item)=>item.filterId === this.filterId)
+        },
+        todoItemsDone(){
+            return this.doneTodoItems.filter((item)=>item.filterId == this.filterId)
+        },
+        filterName(){
+            let filterItem = this.filters.find((item)=>{
+                return this.filterId === item.id
+            })
+            if(filterItem){
+                return filterItem.title
+            }
+        },
+        showShowMore(){
+            if(this.filterId !== -3 && this.filterId !== -2 && this.filterId !== -1){
+                return true
+            }
+            return false
+        }
     },
     mounted(){
         window.onresize = ()=>{
@@ -55,10 +81,6 @@ export default {
         }
         this.windowResize()
         let _this = this
-        setTimeout(function(){
-            console.log(_this.doneTodoItems)
-            console.log(_this.notDoneTodoItems)
-        },1000)
     },
     methods:{
         windowResize(){

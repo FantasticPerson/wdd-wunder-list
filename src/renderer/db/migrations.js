@@ -11,7 +11,7 @@ export default [
                 'status',
                 'title',
                 'date',
-                'dueData',
+                'dueDate',
                 'subList',
                 'remark',
                 'star',

@@ -19,6 +19,7 @@
 import Models from '../model'
 import {actionList} from '../store/actions'
 import Reducers from '../store/reducers'
+import moment from 'moment'
 
 export default {
     data(){
@@ -40,15 +41,19 @@ export default {
             const {newTaskInput} = this.$refs
             let value = newTaskInput.value.trim()
             if(value.length > 0){
+                console.log(moment().format())
                 Reducers.dealWithAddTodoItem({
-                    id:1,
+                    id:this.$store.getters.todoItemNextId,
                     status:0,
-                    title:'12',
-                    dueDate:'123',
+                    title:value,
+                    dueDate:'',
                     subList:[],
+                    date:moment().format(),
                     remark:'',
-                    star:0
+                    star:this.filterId === -3 ? 1 : 0,
+                    filterId:(this.filterId === -3 || this.filterId == -2) ? -4 : this.filterId
                 })
+                newTaskInput.value = ''
             }
         },
         onFocusChange(bool){
@@ -57,6 +62,11 @@ export default {
         onAddTaskClick(){
             const {newTaskInput} = this.$refs
             newTaskInput.focus()
+        }
+    },
+    props:{
+        filterId:{
+            type:[String,Number]
         }
     }
 }
