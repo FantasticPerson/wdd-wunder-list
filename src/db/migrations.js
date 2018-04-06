@@ -13,12 +13,14 @@ export default [
                 'date',
                 'dueData',
                 'subList',
-                'remark'
+                'remark',
+                'star'
             ],
             subTodoList:[
                 'id',
                 'status',
-                'title'
+                'title',
+                'pId'
             ]
         }
     }

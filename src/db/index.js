@@ -14,7 +14,6 @@ export default ()=>{
     })
 
     app_db.on('error', (err) => {
-        debugger
         console.error('Dexie App Error, ', err.stack || err);
     });
     

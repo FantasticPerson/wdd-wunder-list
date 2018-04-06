@@ -27,13 +27,12 @@ export default {
             showSearchIcon:true
         }
     },
-    created(){
+    mounted(){
         window.onresize = ()=>{
             this.windowResize()
         }
         this.windowResize()
-    },
-    mounted(){
+
         const {searchInput} = this.$refs
         searchInput.onfocus = ()=>{
             this.onInputFocusChange(true)
