@@ -14,13 +14,19 @@ export default [
                 'dueData',
                 'subList',
                 'remark',
-                'star'
+                'star',
+                'commits',
+                'filterId'
             ],
             subTodoList:[
                 'id',
                 'status',
                 'title',
                 'pId'
+            ],
+            filters:[
+                'id',
+                'title'
             ]
         }
     }

@@ -8,11 +8,14 @@ const mutations = {
     updateSubTodoList : (state,subTodoList)=>{
         state.subTodoList = subTodoList
     },
-    updateMenuName : (state,menuName)=>{
-        state.menuName = menuName
+    updateFilterId : (state,filterId)=>{
+        state.filterId = filterId
     },
     updateWrapSlide:(state,bool)=>{
         state.wrapSlide = bool
+    },
+    updateFilterList:(state,list)=>{
+        state.filterList = list
     }
 }
 

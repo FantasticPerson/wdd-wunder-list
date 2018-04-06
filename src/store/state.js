@@ -1,7 +1,8 @@
-const state = {
+export default {
     userInfo:{},
     todoList:[],
     subTodoList:[],
-    menuName:'',
-    wrapSlide:false
+    filterId:'',
+    wrapSlide:false,
+    filterList:[]
 }

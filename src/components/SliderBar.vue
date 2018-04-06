@@ -16,9 +16,23 @@
                 </span> 
             </span>
         </div>
+        <User></User>
+        <div class="list-scroll">
+            <Filters></Filters>
+        </div>
+        <div class="addfilter">
+            <span class="addfilter-icon">
+                <svg class="plus-small" width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve"> <g> <path d="M10,10l0,6.5c-0.003,0.053 -0.008,0.103 -0.024,0.155c-0.038,0.116 -0.12,0.217 -0.226,0.278c-0.047,0.027 -0.094,0.042 -0.146,0.056c-0.052,0.008 -0.051,0.008 -0.104,0.011c-0.053,-0.003 -0.103,-0.008 -0.155,-0.024c-0.15,-0.05 -0.271,-0.171 -0.321,-0.321c-0.016,-0.052 -0.021,-0.102 -0.024,-0.155l0,-6.5l-6.5,0c-0.046,-0.002 -0.058,-0.001 -0.104,-0.011c-0.103,-0.022 -0.197,-0.076 -0.268,-0.154c-0.169,-0.188 -0.169,-0.482 0,-0.67c0.035,-0.038 0.077,-0.072 0.122,-0.098c0.078,-0.045 0.161,-0.062 0.25,-0.067l6.5,0l0,-6.5c0.005,-0.089 0.022,-0.172 0.067,-0.25c0.126,-0.219 0.406,-0.31 0.636,-0.207c0.048,0.022 0.093,0.05 0.132,0.085c0.078,0.071 0.132,0.165 0.154,0.268c0.01,0.046 0.009,0.058 0.011,0.104l0,6.5l6.5,0c0.046,0.002 0.058,0.001 0.104,0.011c0.103,0.022 0.197,0.076 0.268,0.154c0.169,0.188 0.169,0.482 0,0.67c-0.035,0.038 -0.077,0.072 -0.122,0.098c-0.078,0.045 -0.161,0.062 -0.25,0.067l-6.5,0Z"></path> </g> </svg>
+            </span>
+            <span class="addfilter-label">创建清单</span>
+        </div>
     </div>
 </template>
 <script>
+
+import User from './User'
+import Filters from './Filters'
+
 let canClick = true;
 export default {
     data(){
@@ -83,6 +97,10 @@ export default {
                 this.showSearchIcon = true
             }
         }
+    },
+    components:{
+        User,
+        Filters
     }
 }
 </script>
@@ -95,6 +113,8 @@ export default {
         position: absolute;
         top:0;
         z-index: 3;
+        display: flex;
+        flex-direction: column;
     }
     .flex-base{
         width:42px;
@@ -139,5 +159,32 @@ export default {
         height: 45px;
         padding:13px 11px 12px 11px;
         display: inline-block;
+    }
+    .list-scroll{
+        overflow-y: auto;
+        overflow-x: hidden;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .list-scroll::-webkit-scrollbar-button{
+        height:0;
+        background-color:transparent !important
+    }
+    .addfilter{
+        border-top: 1px solid rgba(0,0,0,0.1);
+        background: #f7f7f7;
+        cursor: pointer;
+        display: flex;
+        height: 42px;
+        align-items: center;
+        font-size: 15px;
+        color: #328ad6;
+        fill: #328ad6;
+    }
+    .addfilter-icon{
+        height: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
     }
 </style>

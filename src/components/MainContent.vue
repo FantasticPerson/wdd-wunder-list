@@ -18,8 +18,12 @@
         <div class="task-scrolls">
             <ScrollContainer>
                 <AddTask></AddTask>
-                <div class="tasks"></div>
-                <h2>显示以完成的任务</h2>
+                <div class="tasks">
+                    <ol class="task-list" v-if="notDoneTodoItems && notDoneTodoItems.length">
+                        <TaskItem v-for="item in notDoneTodoItems" :key="item.id" :data="item"></TaskItem>
+                    </ol>
+                </div>
+                <h2 class="show-more"><span>显示以完成的任务</span></h2>
                 <div class="tasks"></div>
             </ScrollContainer>
         </div>
@@ -29,6 +33,8 @@
 
 import ScrollContainer from '../base/scrollContainer'
 import AddTask from './AddTask' 
+import TaskItem from './TaskItem'
+import {mapGetters} from 'vuex'
 
 export default {
     data(){
@@ -36,11 +42,23 @@ export default {
             classNames:'container'
         }
     },
+    computed:{
+        ...mapGetters([
+            'doneTodoItems',
+            'notDoneTodoItems',
+            'notDoneStarTodoItems'
+        ])
+    },
     mounted(){
         window.onresize = ()=>{
             this.windowResize()
         }
         this.windowResize()
+        let _this = this
+        setTimeout(function(){
+            console.log(_this.doneTodoItems)
+            console.log(_this.notDoneTodoItems)
+        },1000)
     },
     methods:{
         windowResize(){
@@ -53,7 +71,8 @@ export default {
     },
     components:{
         ScrollContainer,
-        AddTask
+        AddTask,
+        TaskItem
     }
 }
 
@@ -138,5 +157,28 @@ export default {
         position: relative;
         overflow: hidden;
         flex: 1;
+    }
+    .show-more{
+        margin-top: 20px !important;
+        margin-bottom: 10px;
+        word-wrap: break-word;
+        word-break: break-word;
+        font-size: 11px;
+        color: #fff;
+        position: relative;
+        text-align: left;
+    }
+    .show-more span{
+        background: rgba(4,131,183,0.75);
+        color: #fff;
+        padding: 3px 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 400;
+        display: inline-block;
+        box-sizing: border-box;
+        line-height: 16px;
+        border-radius: 3px;
+        cursor: pointer;
     }
 </style>

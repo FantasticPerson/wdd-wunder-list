@@ -8,6 +8,10 @@ SubTodoList.add = ()=>{
 
 }
 
+SubTodoList.getAll = ()=>{
+    return SubTodoList.store.toArray()
+}
+
 SubTodoList.delete = ()=>{
 
 }

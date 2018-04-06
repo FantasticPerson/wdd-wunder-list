@@ -10,39 +10,15 @@ const actions = {
     updateSubTodoList : (context,subTodoList)=>{
         context.commit('updateSubTodoList',subTodoList)
     },
-    updateMenuName:(context,menuName)=>{
-        context.commit('updateMenuName',menuName)
+    updateFilterId:(context,filterId)=>{
+        context.commit('updateFilterId',filterId)
     },
     updateWrapSlide:(context,bool)=>{
         context.commit('updateWrapSlide',bool)
+    },
+    updateFilterList:(context,list)=>{
+        context.commit('updateFilterList',list)
     }
 }
 
 export default actions
-
-export const actionList = {
-    dealWithAddTodoItem : (obj) =>{
-        Models.TodoList.add(obj)
-        .then(()=>{
-            return Models.TodoList.getAll()   
-        })
-        .then((list)=>{
-            console.log(list)
-        })
-    },
-    dealWithUpdateTodoItem : (obj) => {
-        Models.TodoList.update(obj)
-        .then(()=>{
-            return Models.TodoList.getAll()
-        })
-        .then((list)=>{
-            console.log(list)
-        })
-    },
-    dealWidthFindTodoItem : (id,cb) => {
-        Models.TodoList.find(id)
-        .then((item)=>{
-            cb(item)
-        })
-    }
-}

@@ -11,6 +11,6 @@ UserInfo.update = ()=>{
 
 }
 
-UserInfo.find = (id)=>{
+UserInfo.get = ()=>{
 
 }
