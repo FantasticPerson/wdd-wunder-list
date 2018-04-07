@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <AddFilterModal></AddFilterModal>
     <Home/>
   </div>
 </template>
@@ -7,10 +8,13 @@
 <script>
 
 import Home from './components/Home'
+import AddFilterModal from './base/addFilterModal'
+
 export default {
   name: 'App',
   components:{
-    Home
+    Home,
+    AddFilterModal
   }
 }
 </script>

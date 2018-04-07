@@ -25,5 +25,14 @@ export default {
             }
         })
         return ++id
+    },
+    filterNextId:state=>{
+        let id = 0
+        state.filterList.forEach(item => {
+            if(item.id > id){
+                id = item.id
+            }
+        });
+        return ++id;
     }
 }

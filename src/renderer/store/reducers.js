@@ -2,7 +2,7 @@ import Models from '../model'
 
 export default {
     dealWithAddTodoItem : (obj) =>{
-        Models.TodoList.add(obj)
+        return Models.TodoList.add(obj)
         .then(()=>{
             return Models.TodoList.getAll()   
         })
@@ -11,7 +11,7 @@ export default {
         })
     },
     dealWithUpdateTodoItem : (obj) => {
-        Models.TodoList.update(obj)
+        return Models.TodoList.update(obj)
         .then(()=>{
             return Models.TodoList.getAll()
         })
@@ -61,6 +61,13 @@ export default {
         ]
         return Models.Filters.getAll().then((list)=>{
             my_vue.$store.commit('updateFilterList',baseMenuList.concat(list))
+        })
+    },
+    dealWithAddFilter:(item)=>{
+        return Models.Filters.add(item).then(()=>{
+            return Promise.resolve()
+        },()=>{
+            Promise.resolve()
         })
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <ul class="filters-collections">
-        <FilterItem v-for="item in filters" :key="item.id" :data="item" :filterId="filterId"></FilterItem>
+        <FilterItem v-for="item in filters" :key="item.id" :data="item" :filterId="filterId" :todoList="notDoneTodoItems"></FilterItem>
     </ul>
 </template>
 <script>
@@ -16,7 +16,7 @@ export default {
     },
     computed:{
         ...mapGetters([
-            'filters','filterId'
+            'filters','filterId','notDoneTodoItems'
         ])
     },
     components:{

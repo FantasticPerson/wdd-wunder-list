@@ -38,6 +38,16 @@ export default {
                 return 'slidebar-item active'
             }
             return 'slidebar-item'
+        },
+        overdayNum(){
+
+        },
+        todoNum(){
+
+        },
+        todoItemByFilter(){
+            
+            return this.todoList.filter((item)=>item.filterId === this.data.id)
         }
     },
     props:{
@@ -47,6 +57,9 @@ export default {
         },
         filterId:{
             type:[String,Number]
+        },
+        todoList:{
+            type:Array
         }
     }
 }

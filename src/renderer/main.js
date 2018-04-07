@@ -4,8 +4,10 @@ import './reset.css'
 import dbconfig from './db'
 import store from './store'
 import Reducers from './store/reducers'
+import vmodal from 'vue-js-modal'
 
 Vue.config.productionTip = false
+Vue.use(vmodal)
 
 /* eslint-disable no-new */
 dbconfig().then(()=>{
