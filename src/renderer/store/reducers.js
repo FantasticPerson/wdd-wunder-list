@@ -69,5 +69,12 @@ export default {
         },()=>{
             Promise.resolve()
         })
+    },
+    dealWithDeleteFilter:(item)=>{
+        return Models.Filters.delete(item.id).then(()=>{
+            return Promise.resolve()
+        },()=>{
+            return Promise.resolve()
+        })
     }
 }

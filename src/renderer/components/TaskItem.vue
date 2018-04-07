@@ -14,7 +14,7 @@
         <span class="due-date" v-if="dueDate">
             {{dueDate}}
         </span>
-        <span class="tag-name" v-if="showFilter">
+        <span class="tag-name" v-if="filterId === -1 || filterId === -2">
             {{filterName}}
         </span>
         <span class="star-wrapper">
@@ -36,6 +36,7 @@ import Reducers from '../store/reducers'
 export default {
 
     computed:{
+        
         dueDate(){
             if(this.data.dueDate && this.data.dueDate.length > 0){
                 let dueDate = moment(this.data.dueDate)
@@ -49,7 +50,7 @@ export default {
         },
         filterName(){
             let filterItem = this.filters.find((item)=>{
-                return item.id === this.filterId
+                return item.id === this.data.filterId
             })
             if(filterItem){
                 return filterItem.title

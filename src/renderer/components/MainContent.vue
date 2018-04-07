@@ -18,15 +18,18 @@
         <div class="task-scrolls">
             <ScrollContainer>
                 <AddTask :filterId="filterId" v-if="filterId !== -1"></AddTask>
+                <h2 class="show-more" v-if="filterId === -1">
+                    <span class="filter-name">{{weekTitle}}</span>
+                </h2>
                 <div class="tasks">
-                    <ol class="task-list" v-if="todoItems">
-                        <TaskItem v-for="item in todoItems" :key="item.id" :data="item" :filterId="filterId" :filters="filters"></TaskItem>
+                    <ol class="task-list" v-if="notDonetodoItems && notDonetodoItems.length > 0">
+                        <TaskItem v-for="item in notDonetodoItems" :key="item.id" :data="item" :filterId="filterId" :filters="filters"></TaskItem>
                     </ol>
                 </div>
-                <h2 class="show-more" v-if="showShowMore"><span>显示以完成的任务</span></h2>
-                <div class="tasks">
-                    <ol class="task-list" v-if="todoItemsDone">
-                        <TaskItem v-for="item in todoItemsDone" :key="item.id" :data="item" :filterId="filterId" :filters="filters"></TaskItem>
+                <h2 class="show-more" v-if="showShowMore" @click.prevent.stop="showMoreClick"><span>显示以完成的任务</span></h2>
+                <div class="tasks" v-if="showNotDoneTodo">
+                    <ol class="task-list" v-if="doneTodoItems && doneTodoItems.length > 0">
+                        <TaskItem v-for="item in doneTodoItems" :key="item.id" :data="item" :filterId="filterId" :filters="filters"></TaskItem>
                     </ol>
                 </div>
             </ScrollContainer>
@@ -39,27 +42,23 @@ import ScrollContainer from '../base/scrollContainer'
 import AddTask from './AddTask' 
 import TaskItem from './TaskItem'
 import {mapGetters} from 'vuex'
+import moment from 'moment'
 
 export default {
     data(){
         return {
-            classNames:'container'
+            classNames:'container',
+            showNotDoneTodo:false,
+            weekTitle:''
         }
     },
     computed:{
         ...mapGetters([
-            'doneTodoItems',
-            'notDoneTodoItems',
-            'notDoneStarTodoItems',
             'filterId',
-            'filters'
+            'filters',
+            'notDonetodoItems',
+            'doneTodoItems'
         ]),
-        todoItems(){
-            return this.notDoneTodoItems.filter((item)=>item.filterId === this.filterId)
-        },
-        todoItemsDone(){
-            return this.doneTodoItems.filter((item)=>item.filterId == this.filterId)
-        },
         filterName(){
             let filterItem = this.filters.find((item)=>{
                 return this.filterId === item.id
@@ -76,6 +75,10 @@ export default {
         }
     },
     mounted(){
+        let month = moment().month()
+        let date = moment().date()
+        date = String(date).length === 1 ? '0'+date : date
+        this.weekTitle = `今天,${month+1}月.${date}`
         /*window.onresize = ()=>{
             this.windowResize()
         }
@@ -88,6 +91,9 @@ export default {
             } else {
                 this.classNames = 'container flex-base';
             }
+        },
+        showMoreClick(){
+            this.showNotDoneTodo = !this.showNotDoneTodo
         }
     },
     components:{
@@ -201,5 +207,17 @@ export default {
         line-height: 16px;
         border-radius: 3px;
         cursor: pointer;
+    }
+    .filter-name{
+        background: rgba(4,131,183,0.75);
+        color: #fff;
+        padding: 3px 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 400;
+        display: inline-block;
+        box-sizing: border-box;
+        line-height: 16px;
+        border-radius: 3px;
     }
 </style>

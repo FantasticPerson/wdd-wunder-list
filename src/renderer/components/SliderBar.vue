@@ -36,6 +36,7 @@ import Filters from './Filters'
 import {mapGetters} from 'vuex'
 import FilterContext from './FilterContext'
 import EventBus from '../utils/bus'
+import Reducers from '../store/reducers'
 
 let canClick = true;
 export default {
@@ -88,6 +89,10 @@ export default {
                 this.$modal.show('remove-filter-modal')
             } else if(data.taskName == 'delete'){
                 this.showMenuContext = false
+                Reducers.dealWithDeleteFilter(this.clickData)
+                .then(()=>{
+                    Reducers.getFilterList()
+                })
             }
         })
     },

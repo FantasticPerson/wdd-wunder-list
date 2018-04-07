@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 export default {
     todoItems : state => state.todoList,
     doneTodoItems : state => state.todoList.filter(item => item.status === 1),
@@ -35,5 +37,60 @@ export default {
         }); 
         return ++id;
     },
-    contextFilter:state=>state.contextFilter
+    contextFilter:state=>state.contextFilter,
+    notDonetodoItems:state=>{
+        if(state.filterId === -4 || status.filterId >= 0){
+            let list = state.todoList.filter(item=>{
+                return item.filterId === state.filterId}
+            )
+            return list.filter(item=>item.status === 0)
+        }
+        if(state.filterId === -3){
+            let list = state.todoList.filter(item=>item.star === 1)
+            return list.filter(item=>item.status ===0)
+        }
+        if(state.filterId === -2){
+            let list = state.todoList.filter(item=>{
+                let cData = moment(item.date).format('WW,YYYY')
+                let now = moment().format('WW,YYYY')
+                return cData === now
+            })
+            return list.filter(item=>item.status === 0)
+        }
+        if(state.filterId === -1){
+            let list = state.todoList.filter(item=>{
+                let cData = moment(item.date).format('DD,MM,YYYY')
+                let now = moment().format('DD,MM,YYYY')
+                return cData === now
+            })
+            return list.filter(item=>item.status === 0)
+        }
+    },
+    doneTodoItems:state=>{
+        if(state.filterId === -4 || status.filterId >= 0){
+            let list = state.todoList.filter(item=>item.filterId === state.filterId)
+            return list.filter(item=>item.status === 1)
+        }
+        if(state.filterId === -3){
+            let list = state.todoList.filter(item=>item.star === 1)
+            return list.filter(item=>item.status ===1)
+        }
+        if(state.filterId === -2){
+            let list = state.todoList.filter(item=>{
+                let cData = moment(item.date).format('WW,YYYY')
+                let now = moment().format('WW,YYYY')
+                console.log(cData,now)
+                return cData === now
+            })
+            return list.filter(item=>item.status === 1)
+        }
+        if(state.filterId === -1){
+            let list = state.todoList.filter(item=>{
+                let cData = moment(item.date).format('DD,MM,YYYY')
+                let now = moment().format('DD,MM,YYYY')
+                return cData === now
+            })
+            return list.filter(item=>item.status === 1)
+        }
+    }
 }
