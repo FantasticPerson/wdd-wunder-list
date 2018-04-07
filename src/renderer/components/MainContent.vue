@@ -27,7 +27,7 @@
                     </ol>
                 </div>
                 <h2 class="show-more" v-if="showShowMore" @click.prevent.stop="showMoreClick"><span>显示以完成的任务</span></h2>
-                <div class="tasks" v-if="showNotDoneTodo">
+                <div class="tasks" v-if="showNotDoneTodo && showShowMore">
                     <ol class="task-list" v-if="doneTodoItems && doneTodoItems.length > 0">
                         <TaskItem v-for="item in doneTodoItems" :key="item.id" :data="item" :filterId="filterId" :filters="filters"></TaskItem>
                     </ol>
