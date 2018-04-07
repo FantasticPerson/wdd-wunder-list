@@ -39,7 +39,7 @@ export default {
     },
     contextFilter:state=>state.contextFilter,
     notDonetodoItems:state=>{
-        if(state.filterId === -4 || status.filterId >= 0){
+        if(state.filterId === -4 || state.filterId >= 0){
             let list = state.todoList.filter(item=>{
                 return item.filterId === state.filterId}
             )
@@ -47,7 +47,9 @@ export default {
         }
         if(state.filterId === -3){
             let list = state.todoList.filter(item=>item.star === 1)
-            return list.filter(item=>item.status ===0)
+            return list.filter(item=>{
+                return item.status === 0
+            })
         }
         if(state.filterId === -2){
             let list = state.todoList.filter(item=>{
@@ -67,7 +69,7 @@ export default {
         }
     },
     doneTodoItems:state=>{
-        if(state.filterId === -4 || status.filterId >= 0){
+        if(state.filterId === -4 || state.filterId >= 0){
             let list = state.todoList.filter(item=>item.filterId === state.filterId)
             return list.filter(item=>item.status === 1)
         }
