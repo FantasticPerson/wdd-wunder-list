@@ -1,5 +1,6 @@
 <template>
     <div :class="classNames">
+        <FilterContext v-if="showMenuContext" :clickX="clickX" :clickY="clickY" :data="clickData"></FilterContext>
         <div class="search-bar">
             <span class="toggle-icon" title="Toggle Sidebar" @click="toggleClick()">
                 <svg class="list-toggle" width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve"> <g> <path d="M0.5,3.5l19,0" style="fill:none;stroke-width:1px;stroke:white;"></path> <path d="M0.5,9.53l19,0" style="fill:none;stroke-width:1px;stroke:white;"></path> <path d="M0.5,15.5l19,0" style="fill:none;stroke-width:1px;stroke:white;"></path> </g> </svg>
@@ -33,13 +34,20 @@
 import User from './User'
 import Filters from './Filters'
 import {mapGetters} from 'vuex'
+import FilterContext from './FilterContext'
+import EventBus from '../utils/bus'
 
 let canClick = true;
 export default {
     data(){
         return {
             classNames:'container',
-            showSearchIcon:true
+            showSearchIcon:true,
+            showMenuContext:false,
+            clickX:0,
+            clickY:0,
+            clickData:null
+
         }
     },
     computed:{
@@ -48,10 +56,10 @@ export default {
         ])
     },
     mounted(){
-        window.onresize = ()=>{
+        /*window.onresize = ()=>{
             this.windowResize()
         }
-        this.windowResize()
+        this.windowResize()*/
 
         const {searchInput} = this.$refs
         searchInput.onfocus = ()=>{
@@ -61,6 +69,27 @@ export default {
         searchInput.onblur = ()=>{
             this.onInputFocusChange(false)
         }
+
+        EventBus.$on('showContext',(data)=>{
+            this.$store.commit('updateContextFilter',data.data)
+            this.clickX = data.clickX
+            this.clickY = data.clickY
+            this.clickData = data.data 
+            this.showMenuContext = true 
+        })
+
+        EventBus.$on('hideContextMenu',()=>{
+            this.showMenuContext = false
+        })
+        
+        EventBus.$on('doMenuTask',(data)=>{            
+            if(data.taskName == 'rename'){
+                this.showMenuContext = false
+                this.$modal.show('remove-filter-modal')
+            } else if(data.taskName == 'delete'){
+                this.showMenuContext = false
+            }
+        })
     },
     methods:{
         addFilterClick(){
@@ -109,7 +138,8 @@ export default {
     },
     components:{
         User,
-        Filters
+        Filters,
+        FilterContext
     }
 }
 </script>

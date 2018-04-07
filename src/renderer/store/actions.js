@@ -18,6 +18,9 @@ const actions = {
     },
     updateFilterList:(context,list)=>{
         context.commit('updateFilterList',list)
+    },
+    updateContextFilter:(context,obj)=>{
+        context.commit('updateContextFilter',obj)
     }
 }
 

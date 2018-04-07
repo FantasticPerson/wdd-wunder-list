@@ -32,7 +32,8 @@ export default {
             if(item.id > id){
                 id = item.id
             }
-        });
+        }); 
         return ++id;
-    }
+    },
+    contextFilter:state=>state.contextFilter
 }

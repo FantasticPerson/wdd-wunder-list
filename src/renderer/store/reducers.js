@@ -63,7 +63,7 @@ export default {
             my_vue.$store.commit('updateFilterList',baseMenuList.concat(list))
         })
     },
-    dealWithAddFilter:(item)=>{
+    dealWithAddOrUpdateFilter:(item)=>{
         return Models.Filters.add(item).then(()=>{
             return Promise.resolve()
         },()=>{

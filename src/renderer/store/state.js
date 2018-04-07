@@ -4,5 +4,6 @@ export default {
     subTodoList:[],
     filterId:'',
     wrapSlide:false,
-    filterList:[]
+    filterList:[],
+    contextFilter:{}
 }

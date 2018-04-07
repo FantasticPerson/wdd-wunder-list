@@ -76,11 +76,10 @@ export default {
         }
     },
     mounted(){
-        window.onresize = ()=>{
+        /*window.onresize = ()=>{
             this.windowResize()
         }
-        this.windowResize()
-        let _this = this
+        this.windowResize()*/
     },
     methods:{
         windowResize(){

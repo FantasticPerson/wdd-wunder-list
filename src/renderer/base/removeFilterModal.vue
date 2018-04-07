@@ -1,10 +1,10 @@
 <template>
-    <modal name="add-filter-modal" :width="392" :height="143">
+    <modal name="remove-filter-modal" :width="392" :height="143">
         <div class="content">
             <div class="content-header">
-                <h3 class="center">创建清单</h3>
+                <h3 class="center">{{'重命名清单'}}</h3>
                 <div class="separator">
-                    <input type="text" ref="addInput" placeholder="清单名称" value=""/>
+                    <input type="text" ref="addInput" placeholder="清单名称" :value="contextFilter.title"/>
                 </div>
             </div>
             <div class="options">
@@ -21,24 +21,30 @@
 <script>
 
 import Reducers from '../store/reducers'
+import {mapGetters} from 'vuex'
 
 export default {
-    name:'AddFilterModal',
+    name:'RemoveFilterModal',
+    computed:{
+        ...mapGetters([
+            'contextFilter'
+        ])
+    },
     methods:{
         cancel(){
-            this.$modal.hide('add-filter-modal')
+            this.$modal.hide('remove-filter-modal')
         },
         confirm(){
             const {addInput} = this.$refs
             let value = addInput.value.trim()
             if(value.length > 0){
                 Reducers.dealWithAddOrUpdateFilter({
-                    id:this.$store.getters.filterNextId,
+                    id:this.contextFilter.id,
                     title:value
                 }).then(()=>{
                     Reducers.getFilterList()
                 })
-                this.$modal.hide('add-filter-modal')
+                this.$modal.hide('remove-filter-modal')
             }
         },
     }

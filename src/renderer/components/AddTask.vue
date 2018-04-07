@@ -41,7 +41,6 @@ export default {
             const {newTaskInput} = this.$refs
             let value = newTaskInput.value.trim()
             if(value.length > 0){
-                console.log(moment().format())
                 Reducers.dealWithAddTodoItem({
                     id:this.$store.getters.todoItemNextId,
                     status:0,
