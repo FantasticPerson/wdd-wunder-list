@@ -64,7 +64,6 @@ export default {
                 let list = this.todoList.filter(item=>{
                     let cData = moment(item.date).format('WW,YYYY')
                     let now = moment().format('WW,YYYY')
-                    console.log(cData,now)
                     return cData === now
                 })
                 return list.length
