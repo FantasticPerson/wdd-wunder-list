@@ -2,7 +2,7 @@
     <div class="outer" @click.prevent.stop="onBgClick">
         <div class="container" @click.prevent.stop="()=>{}">
             <ul class="list-menu">
-                <li class="item border-b normal" @click="">编辑用户名</li>
+                <li class="item border-b normal" @click="onEditClick('setUserName')">编辑用户名</li>
                 <li class="item disable border-b">备份</li>
                 <li class="item disable">恢复备份</li>
             </ul>
@@ -19,7 +19,7 @@ export default {
             EventBus.$emit('hideUserMenu')
         },
         onEditClick:()=>{
-            
+            EventBus.$emit('setUserName')
         }
     }
 }

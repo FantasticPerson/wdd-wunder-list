@@ -1,23 +1,10 @@
 <template>
-    <modal name="edit-task-modal" :width="392" :height="183">
+    <modal name="edit-user-modal" :width="392" :height="143">
         <div class="content">
             <div class="content-header">
-                <h3 class="center">{{'编辑任务'}}</h3>
+                <h3 class="center">{{'编辑用户信息'}}</h3>
                 <div class="separator">
-                    <input type="text" ref="addInput" placeholder="任务名称" :value="contextTaskItem.title"/>
-                </div>
-                <div style="height:36px">
-                    <div style="position:fixed;z-index:2048">
-                        <myDatepicker field="myDate"
-                            placeholder="选择日期"
-                            v-model="date"
-                            format="yyyy/mm/dd"
-                            :backward="false"
-                            :no-today="false"
-                            :forward="false"
-                            ref="datepicker"
-                        ></myDatepicker>
-                    </div>
+                    <input type="text" ref="addInput" placeholder="输入名字" :value="userInfo.name"/>
                 </div>
             </div>
             <div class="options">
@@ -35,50 +22,29 @@
 
 import Reducers from '../store/reducers'
 import {mapGetters} from 'vuex'
-import myDatepicker from 'vue-datepicker-simple/datepicker-2';
-import moment from 'moment'
 
 export default {
-    data(){
-        return {
-            date:''
-        }
-    },
-    name:'RemoveFilterModal',
+    name:'EditUserModal',
     computed:{
         ...mapGetters([
-            'contextTaskItem'
+            'userInfo'
         ])
-    },
-    watch:{
-        contextTaskItem(){
-            if(this.contextTaskItem && this.contextTaskItem.date){
-                let dueDate = this.contextTaskItem.dueDate.length > 0 ? this.contextTaskItem.dueDate : this.contextTaskItem.date
-                this.date = moment(dueDate).format('YYYY/MM/DD')
-            }
-        }
     },
     methods:{
         cancel(){
-            this.$modal.hide('edit-task-modal')
+            this.$modal.hide('edit-user-modal')
         },
         confirm(){
-            const {addInput,datepicker} = this.$refs
+            const {addInput} = this.$refs
             let value = addInput.value.trim()
-            if(value.length > 0){
-                Reducers.dealWithUpdateTodoItem({
-                    ...this.contextTaskItem,
-                    title:value,
-                    dueDate:datepicker.value
-                }).then(()=>{
-                    Reducers.getFilterList()
+            if(value.length > 0 && value !== this.userInfo.name){
+                Reducers.dealWithAddUserInfo({
+                    ...this.userInfo,
+                    name:value
                 })
-                this.$modal.hide('edit-task-modal')
+                this.$modal.hide('edit-user-modal')
             }
         },
-    },
-    components:{
-        myDatepicker
     }
 }
 </script>

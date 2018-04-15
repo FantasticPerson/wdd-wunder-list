@@ -45,8 +45,8 @@ export default {
         })
     },
     getUserInfo:()=>{
-        return Models.UserInfo.get().then((user)=>{
-            my_vue.$store.dispatch('updateUserInfo',user)
+        return Models.UserInfo.getAll().then((user)=>{
+            my_vue.$store.dispatch('updateUserInfo',user[0])
         })
     },
     getFilterList:()=>{
@@ -84,6 +84,15 @@ export default {
             return Models.TodoList.deleteByFilterId(item.id)
         },()=>{
             return Promise.resolve()
+        })
+    },
+    dealWithAddUserInfo:(obj)=>{
+        return Models.UserInfo.add(obj).then(()=>{
+            return Models.UserInfo.getAll()
+            .then((userInfo)=>{
+
+                my_vue.$store.dispatch('updateUserInfo',userInfo[0])
+            })
         })
     }
 }

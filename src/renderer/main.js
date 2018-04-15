@@ -25,10 +25,16 @@ function initData(){
   Promise.all([
     Reducers.getTodoList(),
     Reducers.getSubTodoList(),
-    // Reducers.getUserInfo(),
+    Reducers.getUserInfo(),
     Reducers.getFilterList()
   ]).then(()=>{
     let FilterList = my_vue.$store.getters.filters
+    if(! my_vue.$store.getters.userInfo){
+      Reducers.dealWithAddUserInfo({
+        id:1,
+        name:'dandan.wu'
+      })
+    }
     my_vue.$store.commit('updateFilterId',my_vue.$store.getters.filters[0].id)
   })
 }

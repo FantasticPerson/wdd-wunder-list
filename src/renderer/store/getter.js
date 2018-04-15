@@ -94,5 +94,6 @@ export default {
             })
             return list.filter(item=>item.status === 1)
         }
-    }
+    },
+    userInfo:state=>state.userInfo
 }

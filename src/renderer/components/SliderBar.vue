@@ -109,6 +109,10 @@ export default {
         EventBus.$on('showUserMenu',()=>{
             this.showUserMenu = true
         })
+        EventBus.$on('setUserName',()=>{
+            this.showUserMenu = false
+            this.$modal.show('edit-user-modal')
+        })
     },
     methods:{
         ...mapActions([

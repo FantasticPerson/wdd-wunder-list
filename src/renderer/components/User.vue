@@ -2,9 +2,9 @@
     <div class="user-toolbar" @click.prevent.stop="onUserClick">
         <span class="user">
             <span class="user-avatar">
-                <div class="avatar">d</div>
+                <div class="avatar">{{userInfo.name ? userInfo.name.charAt(0) : 'g'}}</div>
             </span>
-            <span class="user-name">dandan.wu</span>
+            <span class="user-name">{{userInfo ? userInfo.name : 'guest'}}</span>
             <span class="user-arrow">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"> <g> <path d="M10.502,13c-0.132,0 -0.26,-0.053 -0.354,-0.146l-4.002,-4c-0.195,-0.195 -0.195,-0.512 0,-0.708c0.195,-0.195 0.512,-0.195 0.707,0l3.649,3.647l3.644,-3.647c0.195,-0.195 0.512,-0.195 0.707,0c0.195,0.195 0.195,0.512 0,0.708l-3.997,4c-0.094,0.093 -0.221,0.146 -0.354,0.146"></path> </g> </svg>
             </span>
@@ -26,7 +26,7 @@ import moment from 'moment'
 export default {
     computed:{
         ...mapGetters([
-            'notDoneTodoItems'
+            'notDoneTodoItems','userInfo'
         ]),
         overDayNum(){
             console.log(this.notDoneTodoItems)
@@ -84,6 +84,7 @@ export default {
         font-size: 15px;
         line-height: 32px;
         color: #262626;
+        max-width: 150px;
     }
     .user-arrow{
         height: 20px;

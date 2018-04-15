@@ -3,6 +3,7 @@
     <AddFilterModal></AddFilterModal>
     <RemoveFilterModal></RemoveFilterModal>
     <EditTaskItemModal></EditTaskItemModal>
+    <EditUserInfo></EditUserInfo>
     <Home/>
   </div>
 </template>
@@ -13,6 +14,7 @@ import Home from './components/Home'
 import AddFilterModal from './base/addFilterModal'
 import RemoveFilterModal from './base/removeFilterModal'
 import EditTaskItemModal from './components/EditTaskItemModal'
+import EditUserInfo from './components/EditUserModal'
 
 export default {
   name: 'App',
@@ -20,7 +22,8 @@ export default {
     Home,
     AddFilterModal,
     RemoveFilterModal,
-    EditTaskItemModal
+    EditTaskItemModal,
+    EditUserInfo
   }
 }
 </script>
