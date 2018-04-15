@@ -20,6 +20,20 @@ TodoList.delete = (id)=>{
         })
 }
 
+TodoList.deleteByFilterId = (id)=>{
+    return TodoList.getAll()
+    .then((list)=>{
+        let promiseArr = list.map((item)=>{
+            if(item.filterId === id){
+                return TodoList.delete(item.id)
+            } else {
+                return Promise.resolve()
+            }
+        })
+        return Promise.all(promiseArr)
+    })
+}
+
 TodoList.update = (obj)=>{
     return TodoList.store.put(obj)
 }

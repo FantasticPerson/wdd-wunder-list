@@ -7,7 +7,7 @@ export default {
             return Models.TodoList.getAll()   
         })
         .then((list)=>{
-            my_vue.$store.commit('updateTodoList',list)
+            my_vue.$store.dispatch('updateTodoList',list)
         })
     },
     dealWithUpdateTodoItem : (obj) => {
@@ -16,7 +16,16 @@ export default {
             return Models.TodoList.getAll()
         })
         .then((list)=>{
-            my_vue.$store.commit('updateTodoList',list)
+            my_vue.$store.dispatch('updateTodoList',list)
+        })
+    },
+    dealWidthDelTodoItem:(id) => {
+        return Models.TodoList.delete(id)
+        .then(()=>{
+            return Models.TodoList.getAll()
+        })
+        .then((list)=>{
+            my_vue.$store.dispatch('updateTodoList',list)
         })
     },
     dealWidthFindTodoItem : (id,cb) => {
@@ -27,17 +36,17 @@ export default {
     },
     getTodoList:()=>{
         return Models.TodoList.getAll().then((list)=>{
-            my_vue.$store.commit('updateTodoList',list)
+            my_vue.$store.dispatch('updateTodoList',list)
         })
     },
     getSubTodoList:()=>{
         return Models.SubTodoList.getAll().then((list)=>{
-            my_vue.$store.commit('updateSubTodoList',list)
+            my_vue.$store.dispatch('updateSubTodoList',list)
         })
     },
     getUserInfo:()=>{
         return Models.UserInfo.get().then((user)=>{
-            my_vue.$store.commit('updateUserInfo',user)
+            my_vue.$store.dispatch('updateUserInfo',user)
         })
     },
     getFilterList:()=>{
@@ -60,7 +69,7 @@ export default {
             }
         ]
         return Models.Filters.getAll().then((list)=>{
-            my_vue.$store.commit('updateFilterList',baseMenuList.concat(list))
+            my_vue.$store.dispatch('updateFilterList',baseMenuList.concat(list))
         })
     },
     dealWithAddOrUpdateFilter:(item)=>{
@@ -72,7 +81,7 @@ export default {
     },
     dealWithDeleteFilter:(item)=>{
         return Models.Filters.delete(item.id).then(()=>{
-            return Promise.resolve()
+            return Models.TodoList.deleteByFilterId(item.id)
         },()=>{
             return Promise.resolve()
         })

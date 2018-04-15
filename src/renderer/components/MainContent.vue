@@ -1,5 +1,6 @@
 <template>
     <div :class="classNames">
+        <TaskItemContext v-if="showContext"  :clickX="clickX" :clickY="clickY" :data="clickData"></TaskItemContext>
         <div class="list-toolbar">
             <h1 class="title">{{filterName}}</h1>
             <div class="actionBar">
@@ -41,15 +42,22 @@
 import ScrollContainer from '../base/scrollContainer'
 import AddTask from './AddTask' 
 import TaskItem from './TaskItem'
-import {mapGetters} from 'vuex'
+import {mapGetters,mapActions} from 'vuex'
 import moment from 'moment'
+import TaskItemContext from './TaskItemContext'
+import EventBus from '../utils/bus'
+import Reducers from '../store/reducers'
 
 export default {
     data(){
         return {
             classNames:'container',
             showNotDoneTodo:false,
-            weekTitle:''
+            weekTitle:'',
+            showContext:false,
+            clickX:0,
+            clickY:0,
+            clickData:{}
         }
     },
     computed:{
@@ -83,8 +91,32 @@ export default {
             this.windowResize()
         }
         this.windowResize()*/
+
+        EventBus.$on('showTaskItemContext',(data)=>{
+            this.clickX = data.clickX
+            this.clickY = data.clickY
+            this.clickData = data.data
+            this.showContext = true
+            this.updateContextTaskItem(data.data)
+        })
+        EventBus.$on('hideContextMenu',(data)=>{
+            this.showContext = false
+        })
+        EventBus.$on('doTaskItemTask',(data)=>{
+            if(data.taskName === 'delete'){
+                Reducers.dealWidthDelTodoItem(this.clickData.id)
+                this.showContext = false
+                // this.$modal.show('edit-task-modal')
+            } else {
+                this.showContext = false
+                this.$modal.show('edit-task-modal')
+            }
+        })
     },
     methods:{
+        ...mapActions([
+            'updateContextTaskItem'
+        ]),
         windowResize(){
             if(window.innerWidth > 900){
                 this.classNames = 'container';
@@ -94,12 +126,14 @@ export default {
         },
         showMoreClick(){
             this.showNotDoneTodo = !this.showNotDoneTodo
-        }
+        },
+        
     },
     components:{
         ScrollContainer,
         AddTask,
-        TaskItem
+        TaskItem,
+        TaskItemContext
     }
 }
 

@@ -1,5 +1,5 @@
 <template>
-    <li :class="className">
+    <li :class="className" @contextmenu.prevent.stop="onContextMenu($event)">
         <span class="taskItem-checkWrapper">
             <span class="taskItem-check" title="标记为已完成" v-if="data.status === 0" @click.prevet.stop="onItemClick(true)">
                 <svg class="task-check" width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.41421;"> <g> <path d="M17.5,4.5c0,-0.53 -0.211,-1.039 -0.586,-1.414c-0.375,-0.375 -0.884,-0.586 -1.414,-0.586c-2.871,0 -8.129,0 -11,0c-0.53,0 -1.039,0.211 -1.414,0.586c-0.375,0.375 -0.586,0.884 -0.586,1.414c0,2.871 0,8.129 0,11c0,0.53 0.211,1.039 0.586,1.414c0.375,0.375 0.884,0.586 1.414,0.586c2.871,0 8.129,0 11,0c0.53,0 1.039,-0.211 1.414,-0.586c0.375,-0.375 0.586,-0.884 0.586,-1.414c0,-2.871 0,-8.129 0,-11Z" style="fill:none;stroke-width:1px"></path> </g> </svg>
@@ -32,17 +32,17 @@
 
 import moment from 'moment'
 import Reducers from '../store/reducers'
+import myDatePicker from 'vue-datepicker-simple/datepicker-2'
+import EventBus from '../utils/bus'
 
 export default {
-
     computed:{
-        
         dueDate(){
             if(this.data.dueDate && this.data.dueDate.length > 0){
                 let dueDate = moment(this.data.dueDate)
-                let now = moment().format()
+                let now = moment()
                 let diff = now.diff(dueDate)
-                if(diff < 0){
+                if(diff > 0){
                     return dueDate.format('DD,MM,YYYY')
                 }
             }
@@ -64,6 +64,10 @@ export default {
             return 'taskItem task-done'
         }
     },
+
+    mounted(){
+        
+    },
     methods:{
         onItemClick(bool){
             if( Boolean(this.data.status) !== bool){
@@ -78,6 +82,9 @@ export default {
                 newData.star = bool ? 1 : 0
                 Reducers.dealWithUpdateTodoItem(newData)
             }
+        },
+        onContextMenu(event){
+            EventBus.$emit('showTaskItemContext',{data:this.data,clickX:event.clientX,clickY:event.clientY})
         }
     },
     props:{
@@ -104,6 +111,9 @@ export default {
         filterId:{
             type:[String,Number]
         }
+    },
+    components:{
+        'date-picker':myDatePicker
     }
 }
 </script>

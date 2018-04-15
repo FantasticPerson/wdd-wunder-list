@@ -2,6 +2,7 @@
   <div id="app">
     <AddFilterModal></AddFilterModal>
     <RemoveFilterModal></RemoveFilterModal>
+    <EditTaskItemModal></EditTaskItemModal>
     <Home/>
   </div>
 </template>
@@ -11,13 +12,15 @@
 import Home from './components/Home'
 import AddFilterModal from './base/addFilterModal'
 import RemoveFilterModal from './base/removeFilterModal'
+import EditTaskItemModal from './components/EditTaskItemModal'
 
 export default {
   name: 'App',
   components:{
     Home,
     AddFilterModal,
-    RemoveFilterModal
+    RemoveFilterModal,
+    EditTaskItemModal
   }
 }
 </script>

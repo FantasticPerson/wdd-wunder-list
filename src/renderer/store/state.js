@@ -5,5 +5,6 @@ export default {
     filterId:'',
     wrapSlide:false,
     filterList:[],
-    contextFilter:{}
+    contextFilter:{},
+    contextTaskItem:{}
 }

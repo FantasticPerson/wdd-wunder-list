@@ -19,6 +19,9 @@ const mutations = {
     },
     updateContextFilter:(state,obj)=>{
         state.contextFilter = obj
+    },
+    updateContextTaskItem:(state,obj)=>{
+        state.contextTaskItem = obj
     }
 }
 

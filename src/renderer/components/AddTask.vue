@@ -47,7 +47,7 @@ export default {
                     title:value,
                     dueDate:'',
                     subList:[],
-                    date:moment().format(),
+                    date:moment().format('YYYY/MM/DD'),
                     remark:'',
                     star:this.filterId === -3 ? 1 : 0,
                     filterId:(this.filterId === -3 || this.filterId == -2) ? -4 : this.filterId

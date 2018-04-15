@@ -38,6 +38,7 @@ export default {
         return ++id;
     },
     contextFilter:state=>state.contextFilter,
+    contextTaskItem:state=>state.contextTaskItem,
     notDonetodoItems:state=>{
         if(state.filterId === -4 || state.filterId >= 0){
             let list = state.todoList.filter(item=>{

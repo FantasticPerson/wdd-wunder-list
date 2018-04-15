@@ -21,6 +21,9 @@ const actions = {
     },
     updateContextFilter:(context,obj)=>{
         context.commit('updateContextFilter',obj)
+    },
+    updateContextTaskItem:(context,obj)=>{
+        context.commit('updateContextTaskItem',obj)
     }
 }
 

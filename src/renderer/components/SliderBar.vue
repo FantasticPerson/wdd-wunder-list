@@ -1,5 +1,6 @@
 <template>
     <div :class="classNames">
+        <UserMenu v-if="showUserMenu"></UserMenu>
         <FilterContext v-if="showMenuContext" :clickX="clickX" :clickY="clickY" :data="clickData"></FilterContext>
         <div class="search-bar">
             <span class="toggle-icon" title="Toggle Sidebar" @click="toggleClick()">
@@ -26,6 +27,7 @@
                 <svg class="plus-small" width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve"> <g> <path d="M10,10l0,6.5c-0.003,0.053 -0.008,0.103 -0.024,0.155c-0.038,0.116 -0.12,0.217 -0.226,0.278c-0.047,0.027 -0.094,0.042 -0.146,0.056c-0.052,0.008 -0.051,0.008 -0.104,0.011c-0.053,-0.003 -0.103,-0.008 -0.155,-0.024c-0.15,-0.05 -0.271,-0.171 -0.321,-0.321c-0.016,-0.052 -0.021,-0.102 -0.024,-0.155l0,-6.5l-6.5,0c-0.046,-0.002 -0.058,-0.001 -0.104,-0.011c-0.103,-0.022 -0.197,-0.076 -0.268,-0.154c-0.169,-0.188 -0.169,-0.482 0,-0.67c0.035,-0.038 0.077,-0.072 0.122,-0.098c0.078,-0.045 0.161,-0.062 0.25,-0.067l6.5,0l0,-6.5c0.005,-0.089 0.022,-0.172 0.067,-0.25c0.126,-0.219 0.406,-0.31 0.636,-0.207c0.048,0.022 0.093,0.05 0.132,0.085c0.078,0.071 0.132,0.165 0.154,0.268c0.01,0.046 0.009,0.058 0.011,0.104l0,6.5l6.5,0c0.046,0.002 0.058,0.001 0.104,0.011c0.103,0.022 0.197,0.076 0.268,0.154c0.169,0.188 0.169,0.482 0,0.67c-0.035,0.038 -0.077,0.072 -0.122,0.098c-0.078,0.045 -0.161,0.062 -0.25,0.067l-6.5,0Z"></path> </g> </svg>
             </span>
             <span class="addfilter-label">创建清单</span>
+            <!-- <DatePicker></DatePicker> -->
         </div>
     </div>
 </template>
@@ -33,10 +35,12 @@
 
 import User from './User'
 import Filters from './Filters'
-import {mapGetters} from 'vuex'
+import {mapGetters,mapActions} from 'vuex'
 import FilterContext from './FilterContext'
 import EventBus from '../utils/bus'
 import Reducers from '../store/reducers'
+import UserMenu from './UserMenu'
+// import DatePicker from './DatePicker'
 
 let canClick = true;
 export default {
@@ -47,13 +51,13 @@ export default {
             showMenuContext:false,
             clickX:0,
             clickY:0,
-            clickData:null
-
+            clickData:null,
+            showUserMenu:false
         }
     },
     computed:{
         ...mapGetters([
-            'doneTodoItems'
+            'doneTodoItems','filterId'
         ])
     },
     mounted(){
@@ -72,7 +76,7 @@ export default {
         }
 
         EventBus.$on('showContext',(data)=>{
-            this.$store.commit('updateContextFilter',data.data)
+            this.updateContextFilter(data.data)
             this.clickX = data.clickX
             this.clickY = data.clickY
             this.clickData = data.data 
@@ -92,11 +96,24 @@ export default {
                 Reducers.dealWithDeleteFilter(this.clickData)
                 .then(()=>{
                     Reducers.getFilterList()
+                    Reducers.getTodoList()
+                    if(this.filterId == this.clickData.id){
+                        this.updateFilterId(-4)
+                    }
                 })
             }
         })
+        EventBus.$on('hideUserMenu',()=>{
+            this.showUserMenu = false
+        })
+        EventBus.$on('showUserMenu',()=>{
+            this.showUserMenu = true
+        })
     },
     methods:{
+        ...mapActions([
+            'updateFilterId','updateContextFilter'
+        ]),
         addFilterClick(){
             this.$modal.show('add-filter-modal')
         },
@@ -144,7 +161,9 @@ export default {
     components:{
         User,
         Filters,
-        FilterContext
+        FilterContext,
+        UserMenu,
+        // DatePicker
     }
 }
 </script>

@@ -61,3 +61,10 @@ table {
 	height:0 !important;
 	background-color: transparent !important
 }
+
+/* date-picker reset css */
+.vue-datepicker-panels{
+	margin: 0 !important;
+	padding: 0 !important;
+	overflow: hidden !important;
+}

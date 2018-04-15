@@ -22,6 +22,7 @@
 
 import EventBus from '../utils/bus'
 import moment from 'moment'
+import {mapActions} from 'vuex'
 
 export default {
     methods:{
@@ -30,7 +31,7 @@ export default {
         },
         onFilterClick(){
             if(this.filterId !== this.data.id){
-                this.$store.commit('updateFilterId',this.data.id)
+                this.updateFilterId(this.data.id)
             }
         },
         onContextMenu(event){
@@ -38,10 +39,14 @@ export default {
                 return
             }
             EventBus.$emit('showContext',{data:this.data,clickX:event.clientX,clickY:event.clientY})
-        }
+        },
+        ...mapActions([
+            'updateFilterId'
+        ]),
     },
 
     computed:{
+        
         className(){
             if(this.filterId === this.data.id){
                 return 'slidebar-item active'
@@ -49,7 +54,14 @@ export default {
             return 'slidebar-item'
         },
         overdayNum(){
-            return 0
+            let list = this.todoItemByFilter.filter((item)=>{
+                let cData = moment(item.dueDate.length > 0 ? item.dueDate : item.date).format('YYYY/MM/DD')
+                let now = moment().format('YYYY/MM/DD')
+                let nowTime = moment(now)
+                let cDataTime = moment(cData)
+                return nowTime.diff(cDataTime) > 0
+            })
+            return list.length
         },
         todoNum(){
             if(this.data.id >= 0 || this.data.id === -4){
